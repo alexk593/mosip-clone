@@ -1,0 +1,85 @@
+Project Title: MOSIP Core Subset Clone - User & Admin Modules MVP
+Objective: Develop a functional, Minimum Viable Product (MVP) representing a core subset of the MOSIP platform, focusing on distinct User and Admin functionalities. This MVP will serve as a well-architected foundation.
+Core Modules & Functionality:
+User Module:
+Self-Registration: Users can register with essential details (e.g., name, email, username, password - securely hashed).
+Login/Authentication: Secure login for registered users (session or token-based).
+Profile Management: Authenticated users can view and edit their own core profile information.
+Logout: Terminate the user session.
+Admin Module:
+Admin Login: Separate or role-differentiated login for administrative users.
+User Listing: Admins can view a list of all registered users (potentially with pagination/sorting).
+Basic User Management (Admin): Admins can view basic details of any user. (Optional Scope - define clearly in plan: Admins might be able to perform limited actions like activating/deactivating accounts, not changing passwords directly).
+Explicit Exclusions: This project will not include biometrics, complex multi-factor authentication, UIN generation/management, credential issuance, verification workflows, advanced audit trails, complex role/permission systems (beyond basic user/admin differentiation), or other advanced integrations found in the full MOSIP platform.
+Phase 1: Technical Planning & Design (Mandatory First Step)
+Before any code is written, create a comprehensive Technical Plan document covering:
+Detailed Scope Definition:
+Clearly outline the features for both the User and Admin modules.
+Explicitly list excluded features.
+Define key user flows for both regular users (registration, login, view/edit profile, logout) and admins (admin login, view user list, view user detail, [optional admin actions]).
+System Architecture: Diagram and describe the frontend-backend interaction, highlighting how user vs. admin access is controlled.
+API Design (RESTful):
+Define core REST API endpoints, clearly separating user-facing endpoints (e.g., /api/v1/auth/register, /api/v1/users/me) from admin-only endpoints (e.g., /api/v1/admin/users).
+Specify authorization requirements (which roles can access which endpoints).
+Plan for versioning (e.g., /api/v1/...).
+Specify standard success/error response formats.
+Database Schema:
+Design the MySQL schema (tables, columns, relationships, data types, indices).
+Crucially, include a role column (e.g., ENUM('user', 'admin') or similar) in the user table to differentiate user types.
+Plan for seeding an initial admin user.
+Technology Stack Confirmation & Configuration: Detail setup for each technology (pnpm workspaces, Zustand store structure including handling user role, Tanstack Query cache setup, Axum routing/middleware for auth/authz, SQLx connection pooling).
+Security Considerations: Outline security measures: password hashing (specify algorithm like bcrypt/argon2), input validation, secrets management, authorization (role-based access control for APIs), prevention of common web vulnerabilities (XSS, CSRF - basic measures).
+Testing Strategy: Define the approach for unit and integration testing for both frontend (user/admin views) and backend (user/admin APIs), including proposed tools/libraries (e.g., Vitest/RTL for React, standard Rust testing framework).
+Development Environment Setup: Specify instructions using Docker and Docker Compose for MySQL and potentially backend/frontend services for consistency. Include steps for database schema migration and seeding the initial admin user.
+Project Milestones: Break down the development into logical milestones covering planning, backend (auth, user API, admin API), frontend (auth, user views, admin views), and testing/refinement.
+Phase 2: Development & Implementation
+Frontend (React):
+Build Tool: pnpm
+UI Framework: React
+UI Components: shadcn/ui
+State Management: Zustand (manage auth state, user info, and user role).
+API Communication: Axios (configured with base URL, interceptors).
+Data Fetching & Caching: Tanstack Query (for user profile data, admin user list).
+Data Display: Tanstack Table (Essential for the Admin User Listing view).
+Routing: Tanstack Router (Implement protected routes for authenticated users and separate, protected routes/layouts for the Admin section based on user role).
+Forms: Tanstack Form (for registration, login, user profile editing).
+List Virtualization: Tanstack Virtual (Consider for the admin user list if expecting a large number of users, otherwise optional).
+Requirements:
+Fast, optimized, responsive UI.
+Clear separation between user-facing views and admin-facing views.
+Conditional rendering and routing based on user authentication status and role.
+Accessible (a11y) design.
+Modular components.
+User-friendly error handling.
+Backend (Rust - Axum):
+Framework: Axum
+Database Interaction: SQLx (compile-time checked SQL against MySQL).
+Database: MySQL.
+Requirements:
+Implement defined RESTful API endpoints.
+Secure Credential Management: Use environment variables (.env file, provide .env.example) for database credentials. NO hardcoding.
+Authentication: Implement secure user registration (password hashing) and login (token/session generation and validation).
+Authorization:
+Implement middleware in Axum to check for valid authentication tokens/sessions.
+Implement middleware or route guards to enforce role-based access (e.g., checking the role from the user's token/session data) for all /api/v1/admin/* endpoints.
+Database Logic: Interact securely with MySQL via SQLx, ensuring parameterized queries. Include logic to handle the role field during registration (default to 'user') and potentially admin actions.
+Robustness: Proper error handling, input validation, logging.
+Performance: Efficient asynchronous logic and database queries.
+General Development Practices & Quality:
+Version Control: Git with a clear branching strategy (e.g., Gitflow-light). Host on GitHub/GitLab.
+Code Quality:
+Strict adherence to cargo fmt, clippy (Rust) and ESLint/Prettier (TS/React). Configure these tools.
+Clean, modular, maintainable, well-commented code.
+Testing:
+Unit tests for critical logic (frontend components, state logic, backend handlers, auth/authz logic).
+Integration tests for API endpoints (covering both user and admin scenarios) and key user/admin flows.
+Focus on testing authentication and authorization logic thoroughly.
+Documentation:
+Up-to-date README.md (setup, build, run, test, including admin user creation/login).
+API documentation (OpenAPI/Swagger), clearly marking admin-only endpoints.
+Code-level documentation (Rust docs, JSDoc/TSDoc).
+Deliverables:
+The completed Technical Plan document.
+Source code for the frontend and backend applications hosted in a Git repository.
+Clear README.md instructions (setup, database migration/seeding, build, run, test).
+API Documentation distinguishing user and admin endpoints.
