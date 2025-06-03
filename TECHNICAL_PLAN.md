@@ -742,3 +742,88 @@ volumes:
     *   The credentials for the initial admin user (e.g., `admin` / `adminpassword` as defined during seeding) should be documented in the main `README.md`.
     *   Navigate to the application's login page and use these credentials.
     *   Admins should be redirected to the admin dashboard upon successful login.
+
+## 9. Project Milestones
+
+This project will be broken down into the following key milestones. Each milestone represents a significant checkpoint in the development process.
+
+**Phase 1: Technical Planning & Design (Completed with this document)**
+*   **M0: Technical Plan Document Finalized**
+    *   **Deliverable:** This `TECHNICAL_PLAN.md` document, reviewed and approved.
+    *   **Activities:** Requirements gathering, scope definition, system architecture, API design, database schema, technology selection, security planning, test strategy, environment setup planning, milestone definition.
+
+**Phase 2: Backend Development (Rust - Axum)**
+*   **M1: Core Backend Setup & User Authentication API**
+    *   **Deliverables:**
+        *   Basic Axum project structure with pnpm workspace.
+        *   MySQL database schema implemented with SQLx migrations.
+        *   Initial admin user seeding mechanism.
+        *   Environment variable setup (.env, .env.example).
+        *   User registration endpoint (`/api/v1/auth/register`) with password hashing.
+        *   User login endpoint (`/api/v1/auth/login`) generating tokens/sessions and returning user role.
+        *   Logout endpoint (`/api/v1/auth/logout`).
+        *   Core authentication middleware (token/session validation).
+        *   Unit and integration tests for auth endpoints.
+    *   **Activities:** Setup Rust project, configure Axum, implement SQLx, write auth logic, test auth.
+*   **M2: User Profile Management API**
+    *   **Deliverables:**
+        *   Authenticated user profile retrieval endpoint (`/api/v1/users/me`).
+        *   Authenticated user profile update endpoint (`/api/v1/users/me`).
+        *   Ensuring users can only access/modify their own data.
+        *   Unit and integration tests for user profile endpoints.
+    *   **Activities:** Implement user profile handlers, add necessary database queries, write tests.
+*   **M3: Admin User Management API**
+    *   **Deliverables:**
+        *   Admin role authorization middleware for all `/api/v1/admin/*` endpoints.
+        *   Admin endpoint to list all users with pagination and sorting (`/api/v1/admin/users`).
+        *   Admin endpoint to view specific user details (`/api/v1/admin/users/{userId}`).
+        *   Admin endpoint to activate/deactivate user accounts (`/api/v1/admin/users/{userId}/status`).
+        *   Unit and integration tests for admin API endpoints, including role protection.
+    *   **Activities:** Implement admin handlers, add admin-specific database queries, implement admin authorization, write tests.
+
+**Phase 3: Frontend Development (React)**
+*   **M4: Core Frontend Setup & Authentication Views**
+    *   **Deliverables:**
+        *   React project setup with pnpm workspace, Vite, TypeScript, shadcn/ui, Tailwind CSS.
+        *   Zustand store for auth state (user, token, role, isAuthenticated).
+        *   Axios instance with interceptors for API calls.
+        *   Tanstack Router setup with basic public/private route structure.
+        *   Registration page/form (using Tanstack Form).
+        *   Login page/form (using Tanstack Form).
+        *   Logout functionality.
+        *   Basic layout components.
+        *   Unit and integration tests for auth components and flows.
+    *   **Activities:** Setup React project, configure state management, implement auth UI and logic.
+*   **M5: User Profile Management Views**
+    *   **Deliverables:**
+        *   User profile page to view current user details (using Tanstack Query to fetch data).
+        *   User profile editing form (using Tanstack Form and Tanstack Query for updates).
+        *   Protected route for profile page.
+        *   Unit and integration tests for profile view components.
+    *   **Activities:** Build profile UI, integrate with user API, manage form state.
+*   **M6: Admin User Management Views**
+    *   **Deliverables:**
+        *   Admin dashboard layout/section.
+        *   Admin-only protected routes.
+        *   Admin page to list users (using Tanstack Table, Tanstack Query for data, pagination, sorting).
+        *   Admin view for user details.
+        *   Admin functionality to activate/deactivate users from the UI.
+        *   Unit and integration tests for admin view components.
+    *   **Activities:** Build admin UI, integrate with admin API, implement table and data display.
+
+**Phase 4: Testing, Refinement & Documentation**
+*   **M7: Comprehensive Testing & Bug Fixing**
+    *   **Deliverables:**
+        *   Completed unit and integration tests for frontend and backend as per testing strategy.
+        *   Code coverage reports (optional, but good to aim for).
+        *   Bug fixes based on testing.
+    *   **Activities:** Write remaining tests, execute all tests, fix identified bugs, perform cross-browser/device checks (manual).
+*   **M8: Documentation & Final Review**
+    *   **Deliverables:**
+        *   Updated `README.md` with complete setup, build, run, and test instructions (including admin user creation/login).
+        *   API documentation (e.g., generated OpenAPI/Swagger spec, or well-commented code serving as docs for MVP).
+        *   Code-level documentation (Rust docs, JSDoc/TSDoc).
+        *   Final review of the application.
+    *   **Activities:** Write/update documentation, clean up code, prepare for "release."
+
+This milestone plan provides a structured approach to developing the MVP. Each milestone builds upon the previous one, allowing for incremental progress and testing.
