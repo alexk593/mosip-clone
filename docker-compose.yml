@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  mysql_db:
+    image: mysql:8.0
+    container_name: mosip_mvp_mysql
+    ports:
+      - "3306:3306" # Expose MySQL port to host
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword # For development only
+      MYSQL_DATABASE: mosip_mvp_dev
+      MYSQL_USER: mosip_user
+      MYSQL_PASSWORD: mosip_password
+    volumes:
+      - mysql_data:/var/lib/mysql # Persist database data
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost", "-u", "root", "-prootpassword"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  mysql_data:
